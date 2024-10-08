@@ -4,7 +4,7 @@ import useUsers from "../hooks/useUsers";
 import UserComboBox from "@/components/UserComboBox";
 import User from "../entities/User";
 import PermissionSelector, { PermissionType } from "./PermissionSelector";
-// import InviteUserButton from "./InviteUserButton";
+import InviteUserButton from "./InviteUserButton";
 
 export type PermissionCategory = "posts" | "messages" | "profile";
 
@@ -66,13 +66,13 @@ const InviteUserView = () => {
 						/>
 					))}
 				</div>
-				{/* <InviteUserButton
+				<InviteUserButton
 					onInvite={() => setUser(null)}
 					user={user}
 					posts={permissions.posts}
 					messages={permissions.messages}
 					profile={permissions.profile}
-				/> */}
+				/>
 			</div>
 		);
 
