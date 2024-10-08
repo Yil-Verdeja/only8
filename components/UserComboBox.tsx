@@ -20,20 +20,22 @@ import {
 } from "@/components/ui/Popover";
 import User from "../entities/User";
 import { Avatar, AvatarFallback } from "./ui/Avatar";
+import useUsers from "@/hooks/useUsers";
 
 interface Props {
-	users: User[];
 	selectedUser: User | null;
 	onSelected: (user: User | null) => void;
 }
 
-const UserComboBox = ({ users, selectedUser, onSelected }: Props) => {
+const UserComboBox = ({ selectedUser, onSelected }: Props) => {
+	const { data: users, isLoading, error } = useUsers();
 	const [open, setOpen] = React.useState(false);
 
 	const handleUserSelection = (userName: string | null) => {
-		const user = userName
-			? users.find((user) => user.name === userName)
-			: null;
+		const user =
+			users && userName
+				? users.find((user) => user.name === userName)
+				: null;
 		onSelected(user ?? null);
 		setOpen(false);
 	};
@@ -60,35 +62,36 @@ const UserComboBox = ({ users, selectedUser, onSelected }: Props) => {
 					<CommandList>
 						<CommandEmpty>No user found.</CommandEmpty>
 						<CommandGroup>
-							{users.map((user) => (
-								<CommandItem
-									className="flex gap-2"
-									key={user.id}
-									value={user.name}
-									onSelect={handleUserSelection}
-								>
-									<Avatar className="w-10 h-10">
-										<AvatarFallback>
-											{user.name
-												.split(" ")
-												.reduce(
-													(acc, text) =>
-														(acc += text[0]),
-													""
-												)}
-										</AvatarFallback>
-									</Avatar>
-									<span>{user.name}</span>
-									<CheckIcon
-										className={cn(
-											"ml-auto h-4 w-4",
-											selectedUser?.id === user.id
-												? "opacity-100"
-												: "opacity-0"
-										)}
-									/>
-								</CommandItem>
-							))}
+							{users &&
+								users.map((user) => (
+									<CommandItem
+										className="flex gap-2"
+										key={user.id}
+										value={user.name}
+										onSelect={handleUserSelection}
+									>
+										<Avatar className="w-10 h-10">
+											<AvatarFallback>
+												{user.name
+													.split(" ")
+													.reduce(
+														(acc, text) =>
+															(acc += text[0]),
+														""
+													)}
+											</AvatarFallback>
+										</Avatar>
+										<span>{user.name}</span>
+										<CheckIcon
+											className={cn(
+												"ml-auto h-4 w-4",
+												selectedUser?.id === user.id
+													? "opacity-100"
+													: "opacity-0"
+											)}
+										/>
+									</CommandItem>
+								))}
 						</CommandGroup>
 					</CommandList>
 				</Command>

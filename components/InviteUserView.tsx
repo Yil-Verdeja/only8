@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import useUsers from "../hooks/useUsers";
 import UserComboBox from "@/components/UserComboBox";
 import User from "../entities/User";
 import PermissionSelector, { PermissionType } from "./PermissionSelector";
@@ -29,7 +28,6 @@ const DEFAULT_PERMISSIONS: Permissions = {
 
 const InviteUserView = () => {
 	const [user, setUser] = useState<User | null>(null);
-	const { data: users, isLoading, error } = useUsers();
 	const [permissions, setPermissions] =
 		useState<Permissions>(DEFAULT_PERMISSIONS);
 
@@ -43,40 +41,30 @@ const InviteUserView = () => {
 		}));
 	};
 
-	if (isLoading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error.message}</p>;
-
-	if (users)
-		return (
-			<div className="flex flex-row items-center gap-4">
-				<UserComboBox
-					users={users}
-					selectedUser={user}
-					onSelected={setUser}
-				/>
-				<div className="flex flex-row gap-2">
-					{permissionCategories.map(({ category, label }) => (
-						<PermissionSelector
-							key={category}
-							label={label}
-							selectedPermission={permissions[category]}
-							onSelect={(value) =>
-								handlePermissionChange(category, value)
-							}
-						/>
-					))}
-				</div>
-				<InviteUserButton
-					onInvite={() => setUser(null)}
-					user={user}
-					posts={permissions.posts}
-					messages={permissions.messages}
-					profile={permissions.profile}
-				/>
+	return (
+		<div className="flex flex-row items-center gap-4">
+			<UserComboBox selectedUser={user} onSelected={setUser} />
+			<div className="flex flex-row gap-2">
+				{permissionCategories.map(({ category, label }) => (
+					<PermissionSelector
+						key={category}
+						label={label}
+						selectedPermission={permissions[category]}
+						onSelect={(value) =>
+							handlePermissionChange(category, value)
+						}
+					/>
+				))}
 			</div>
-		);
-
-	return null;
+			<InviteUserButton
+				onInvite={() => setUser(null)}
+				user={user}
+				posts={permissions.posts}
+				messages={permissions.messages}
+				profile={permissions.profile}
+			/>
+		</div>
+	);
 };
 
 export default InviteUserView;

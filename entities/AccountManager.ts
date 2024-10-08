@@ -4,12 +4,12 @@ enum AccountManagerStatus {
 	PENDING = "pending",
 }
 
-type PermissionType = "read" | "write" | null;
+type PermissionType = "none" | "read" | "write";
 
 export default interface AccountManager {
-	id: string;
-	account_user_id: string;
-	manager_user_id: string;
+	id: number;
+	account_user_id: number;
+	manager_user_id: number;
 	status: AccountManagerStatus;
 	post_permission: PermissionType;
 	message_permission: PermissionType;
