@@ -3,7 +3,9 @@ import axios from "axios";
 import User from "../entities/User";
 
 const fetchUsers = async () => {
-	const users = await axios.get<User[]>("/api/users").then((res) => res.data);
+	const users = await axios
+		.get<User[]>("/api/get-users")
+		.then((res) => res.data);
 	return users;
 };
 

@@ -12,6 +12,7 @@ import {
 	DialogTrigger,
 } from "./ui/Dialog";
 import { Button } from "./ui/Button";
+import { createAccountManager } from "@/actions/create-account-manager";
 
 interface Invitation {
 	user: User | null;
@@ -33,8 +34,17 @@ const InviteUserButton = ({
 }: Props) => {
 	const [invitation, setInvitation] = useState<Invitation | null>(null);
 
-	const handleInvite = () => {
+	const handleInvite = async () => {
 		console.log("Send invite");
+		const accountManager = await createAccountManager(
+			1,
+			2,
+			"pending",
+			"none",
+			"none",
+			"none"
+		);
+		console.log(accountManager);
 		onInvite();
 	};
 

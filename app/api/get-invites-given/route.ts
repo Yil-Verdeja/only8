@@ -15,7 +15,7 @@ export async function GET(request: Request) {
 	const accountManagers = await db
 		.selectFrom("account_managers")
 		.selectAll()
-		.where("id", "=", userId)
+		.where("account_user_id", "=", userId)
 		.execute();
 
 	return NextResponse.json({ accountManagers }, { status: 200 });

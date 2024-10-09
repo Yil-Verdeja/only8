@@ -16,9 +16,9 @@ export type User = Selectable<UsersTable>;
 export type NewUser = Insertable<UsersTable>;
 export type UserUpdate = Updateable<UsersTable>;
 
-type AccountManagerStatus = "pending" | "accepted" | "rejected";
+export type AccountManagerStatus = "pending" | "accepted" | "rejected";
 
-type PermissionLevel = "none" | "read" | "write";
+export type PermissionLevel = "none" | "read" | "write";
 
 export interface AccountManagersTable {
 	id: Generated<number>;
