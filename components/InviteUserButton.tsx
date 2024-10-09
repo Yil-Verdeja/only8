@@ -13,6 +13,7 @@ import {
 } from "./ui/Dialog";
 import { Button } from "./ui/Button";
 import { createAccountManager } from "@/actions/create-account-manager";
+import { useAuth } from "@/context/AuthContext";
 
 interface Invitation {
 	user: User | null;
@@ -32,17 +33,18 @@ const InviteUserButton = ({
 	profile,
 	onInvite,
 }: Props) => {
+	const { currentUser } = useAuth();
 	const [invitation, setInvitation] = useState<Invitation | null>(null);
 
 	const handleInvite = async () => {
 		console.log("Send invite");
 		const accountManager = await createAccountManager(
-			1,
-			2,
+			currentUser!.id,
+			invitation!.user!.id,
 			"pending",
-			"none",
-			"none",
-			"none"
+			invitation!.posts,
+			invitation!.messages,
+			invitation!.profile
 		);
 		console.log(accountManager);
 		onInvite();
